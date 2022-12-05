@@ -24,6 +24,10 @@ export default {
         if ( cart[itemId] <= 0 ) delete cart[itemId];
         return saveCart();
     },
+    clearCart: () => {
+        cart = {};
+        return saveCart();
+    },
     getItems: async () => {
         const items: {id: string, name: string, price: number, inCart: number}[] = [];
         for ( const itemId in cart ) {
