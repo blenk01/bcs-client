@@ -11,6 +11,10 @@ export default function HomeScreen({ navigation }: any) {
             title="Go to Shopping Cart"
             onPress={() => navigation.navigate('shoppingCart')}
         />
+        <Button
+            title="View purchase history"
+            onPress={() => navigation.navigate('purchaseHistory')}
+        />
     </View>
   );
 }
