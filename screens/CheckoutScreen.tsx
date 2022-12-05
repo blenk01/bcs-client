@@ -110,12 +110,12 @@ export default function CheckoutScreen({navigation, route}: any) {
             <StripeProvider
                 publishableKey={STRIPE_PK}
                 merchantIdentifier="merchant.com.example">
-            <Text>Payment</Text>
-            <Button
-                disabled={!loading}
-                title="Checkout"
-                onPress={openPaymentSheet}
-            />
+                <Text>Payment</Text>
+                <Button
+                    disabled={!loading}
+                    title="Checkout"
+                    onPress={openPaymentSheet}
+                />
             </StripeProvider>
         </SafeAreaView>
     );
