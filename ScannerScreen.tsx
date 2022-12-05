@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
+import { View, StyleSheet, Button, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { PREFIX_BARCODE, API_URL } from './config';
 import CartService from './services/CartService';
@@ -7,6 +7,7 @@ import CartService from './services/CartService';
 export default function ScannerScreen() {
   const [hasPermission, setHasPermission] = useState(false);
   const [scanned, setScanned] = useState(false);
+  const [inputText, setInputText] = useState<undefined|string>(undefined);
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -65,9 +66,16 @@ export default function ScannerScreen() {
                 />
             : 
                 (
-                    //TODO set text input
-                    <Text>Please accept permission</Text>
-                    
+                    <View>
+                        <TextInput 
+                            style={styles.input}
+                            onChangeText={setInputText}
+                            value={inputText}
+                            placeholder="Item ID"
+                            keyboardType="numeric"
+                        />
+                        <Button title='Add Item to basket' onPress={() => {fetchItemAndAddToBasket(inputText!)}} />
+                    </View>
                 )
         }
       { scanned && <Button title='Tap to scan again' onPress={() => { setScanned(false) } } /> }
@@ -80,5 +88,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
