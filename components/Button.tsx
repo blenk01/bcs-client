@@ -1,10 +1,11 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function Button(props: {onPress: any, title: string}) {
-  const { onPress, title } = props;
+export default function Button(props: {onPress: any, title: string, disabled?: boolean}) {
+  const { onPress, title, disabled = false } = props;
   return (
      <TouchableOpacity
+        disabled={disabled}
         activeOpacity={0.3}
         onPress={onPress}
         style={styles.button}>
