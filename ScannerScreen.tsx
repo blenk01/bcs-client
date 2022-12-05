@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Button, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { PREFIX_BARCODE, API_URL } from './config';
+import { PREFIX_BARCODE } from './config';
 import CartService from './services/CartService';
+import ApiService from './services/ApiService';
 
-export default function ScannerScreen() {
+export default function ScannerScreen({ navigation }: any) {
   const [hasPermission, setHasPermission] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [inputText, setInputText] = useState<undefined|string>(undefined);
@@ -30,23 +31,15 @@ export default function ScannerScreen() {
             return;
         }
 
-        let response;
+        let data;
         try {
-          response = await fetch(`${API_URL}/items/${itemId}`, {
-            method: 'GET',
-          });
+          data = await ApiService.getItem(itemId);
         } catch(e) {
-          alert('A server error has occurred !');
+          alert(e);
           return;
         }
 
-        const data = await response.json();
-
-        if ( !response.ok ) { 
-          alert('Server send not ok !');
-          return;
-        } 
-        if ( !data ) { 
+        if ( !data ) {
           alert('Item not found !');
           return;
         }
@@ -62,7 +55,7 @@ export default function ScannerScreen() {
             hasPermission ? 
                 <BarCodeScanner
                     onBarCodeScanned={ scanned ? undefined : handleBarCodeScanned}
-                    style={StyleSheet.absoluteFillObject}
+                    style={styles.barcode}
                 />
             : 
                 (
@@ -79,15 +72,24 @@ export default function ScannerScreen() {
                 )
         }
       { scanned && <Button title='Tap to scan again' onPress={() => { setScanned(false) } } /> }
+      <Button
+        title="Go to Shopping Cart"
+        onPress={() => navigation.navigate('shoppingCart')}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  barcode: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
   input: {
     height: 40,
