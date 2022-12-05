@@ -8,7 +8,7 @@ export default function Button(props: {onPress: any, title: string, disabled?: b
         disabled={disabled}
         activeOpacity={0.3}
         onPress={onPress}
-        style={styles.button}>
+        style={disabled ? styles.disabledButton : styles.button}>
             <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
@@ -27,6 +27,20 @@ const styles = StyleSheet.create({
     marginTop: 1,
     borderTopEndRadius: 10,
     borderBottomStartRadius: 10,
+  },
+  disabledButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+    marginBottom: 1,
+    marginTop: 1,
+    borderTopEndRadius: 10,
+    borderBottomStartRadius: 10,
+    opacity: 0.3,
   },
   text: {
     fontSize: 16,
