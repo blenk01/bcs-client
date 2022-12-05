@@ -14,6 +14,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="scanner" component={ScannerScreen} />
         <Stack.Screen name="shoppingCart" component={ShoppingCartScreen} />
+        <Stack.Screen name="checkout" component={CheckoutScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

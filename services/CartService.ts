@@ -1,5 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import { CART_KEY } from '../config';
+import { ItemCart } from '../types/itemCart';
 import ApiService from './ApiService';
 
 let cart: { [key: string]: number } = {};
@@ -24,12 +25,16 @@ export default {
         if ( cart[itemId] <= 0 ) delete cart[itemId];
         return saveCart();
     },
+    clearCart: () => {
+        cart = {};
+        return saveCart();
+    },
     getItems: async () => {
-        const items: {id: string, name: string, price: number, inCart: number}[] = [];
+        const items: ItemCart[] = [];
         for ( const itemId in cart ) {
             const item: {id: string, name: string, price: number} = await ApiService.getItem(itemId);
             if ( item ) {
-                const itemData: {id: string, name: string, price: number, inCart: number} = {
+                const itemData: ItemCart = {
                     ...item,
                     inCart: cart[itemId]
                 };
