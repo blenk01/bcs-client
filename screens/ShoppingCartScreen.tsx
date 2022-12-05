@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 30,
+    paddingTop: 10
   },
   itemsContainer: {
     flex: 1,
