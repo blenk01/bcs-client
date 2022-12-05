@@ -5,6 +5,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { PREFIX_BARCODE } from '../config';
 import CartService from '../services/CartService';
 import ApiService from '../services/ApiService';
+import FabShoppingCart from '../components/FabShoppingCart';
 
 export default function ScannerScreen({ navigation }: any) {
   const [hasPermission, setHasPermission] = useState(false);
@@ -12,13 +13,25 @@ export default function ScannerScreen({ navigation }: any) {
   const [inputText, setInputText] = useState<undefined|string>(undefined);
 
   useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    };
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      setScanned(false);
+      const getBarCodeScannerPermissions = async () => {
+        const { status } = await BarCodeScanner.requestPermissionsAsync();
+        setHasPermission(status === 'granted');
+      };
 
-    getBarCodeScannerPermissions();
-  }, []);
+      getBarCodeScannerPermissions();
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
+      setScanned(true);
+    });
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    }
+  }, [navigation]);
 
   const handleBarCodeScanned = async ({type, data}: { type: string, data: string }) => {
     setScanned(true);
@@ -79,12 +92,7 @@ export default function ScannerScreen({ navigation }: any) {
               </View>
           )
         }
-      <View style={styles.paddingContainer}>      
-        <Button
-          title="Go to Shopping Cart"
-          onPress={() => navigation.navigate('shoppingCart')}
-        />
-      </View>
+      <FabShoppingCart navigation={navigation}/>
     </View>
   );
 }
