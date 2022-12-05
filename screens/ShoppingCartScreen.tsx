@@ -56,9 +56,6 @@ const styles = StyleSheet.create({
   },
   itemsContainer: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
   },
   itemContainer: {
     display: 'flex',
