@@ -2,9 +2,9 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 import { useStripe } from "@stripe/stripe-react-native";
 import React, { useEffect, useState } from "react";
 import { Alert, Text, Button, SafeAreaView } from "react-native";
-import { API_URL, STRIPE_PK } from "./config";
-import CartService from './services/CartService';
-import { ItemCart } from './types/ItemCart';
+import { API_URL, STRIPE_PK } from "../config";
+import CartService from '../services/CartService';
+import { ItemCart } from '../types/ItemCart';
 
 export default function CheckoutScreen({navigation, route}: any) {
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
