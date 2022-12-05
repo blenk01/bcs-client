@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import CartService from './services/CartService';
-import { ItemCart } from './types/itemCart';
+import { ItemCart } from './types/ItemCart';
 
 export default function ShoppingCartScreen({navigation}: any) {
 
