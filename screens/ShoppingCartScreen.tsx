@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
-import CartService from './services/CartService';
-import { ItemCart } from './types/ItemCart';
+import CartService from '../services/CartService';
+import { ItemCart } from '../types/ItemCart';
 
 export default function ShoppingCartScreen({navigation}: any) {
 
@@ -17,8 +17,6 @@ export default function ShoppingCartScreen({navigation}: any) {
     updateCart();
   }, []);
   
-
-
   return (
     <View style={styles.container}>
         {cart.map((item: ItemCart) => {

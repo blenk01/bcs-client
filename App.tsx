@@ -1,10 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CheckoutScreen from './CheckoutScreen';
-import ScannerScreen from './ScannerScreen';
-import ShoppingCartScreen from './ShoppingCartScreen';
-import HomeScreen from './HomeScreen';
-import PurchaseHistory from './PurchaseHistoryScreen';
+import CheckoutScreen from './screens/CheckoutScreen';
+import ScannerScreen from './screens/ScannerScreen';
+import ShoppingCartScreen from './screens/ShoppingCartScreen';
+import HomeScreen from './screens/HomeScreen';
+import PurchaseHistory from './screens/PurchaseHistoryScreen';
 
 const Stack = createNativeStackNavigator();
 

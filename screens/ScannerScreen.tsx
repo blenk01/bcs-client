@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Button, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { PREFIX_BARCODE } from './config';
-import CartService from './services/CartService';
-import ApiService from './services/ApiService';
+import { PREFIX_BARCODE } from '../config';
+import CartService from '../services/CartService';
+import ApiService from '../services/ApiService';
 
 export default function ScannerScreen({ navigation }: any) {
   const [hasPermission, setHasPermission] = useState(false);

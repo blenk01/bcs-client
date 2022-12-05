@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Button, Text } from 'react-native';
-import ApiService from './services/ApiService';
+import ApiService from '../services/ApiService';
 
 type itemType = {name: string, price: number, count: number};
 
