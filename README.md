@@ -4,10 +4,10 @@
 Configuration du projet via le fichier config.js
 
 
-- STRIPE_PK: Publishable key de stripe
-- API_URL: URL du [serveur backend](https://github.com/kiwiapproximatif/bcs-server)
-- PREFIX_BARCODE: Préfix a retirer du barcode par rapport à l'identifiant de l'item
-- CART_KEY: Clé utiliser pour le SecureStore.
+- STRIPE_PK: Publishable key de stripe.
+- API_URL: URL du [serveur backend](https://github.com/kiwiapproximatif/bcs-server).
+- PREFIX_BARCODE: Préfixe a retirer du barcode pour ne retenir que l'identifiant.
+- CART_KEY: Clé utilisée pour le SecureStore.
 
 Lancement du projet :
 - Lancer le serveur
