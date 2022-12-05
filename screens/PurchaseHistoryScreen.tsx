@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Button, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import Button from '../components/Button';
 import ApiService from '../services/ApiService';
 
 type itemType = {name: string, price: number, count: number};
@@ -36,18 +37,19 @@ export default function PurchaseHistory({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            {purchaseHistory.map(paymentsItems => {
-                return  (
-                    <View>
-                    {paymentsItems.map((item: itemType) => {
-                        return (
-                          <Text>{item.name} - {item.price/100}€/p - x{item.count} - {(item.price * item.count)/100}€</Text>  
-                        );
-                    })}
-                    <Text>--</Text>
-                    </View>
-                );
-            })}
+            <View style={styles.purchasesContainer}>
+                {purchaseHistory.map(paymentsItems => {
+                    return  (
+                        <View style={styles.purchaseContainer}>
+                            {paymentsItems.map((item: itemType) => {
+                                return (
+                                    <Text style={styles.purchaseText}>{item.name} - {item.price/100}€/p - x{item.count} - {(item.price * item.count)/100}€</Text>  
+                                );
+                            })}
+                        </View>
+                    );
+                })}
+            </View>
             <Button
                 title="Go back"
                 onPress={() => navigation.goBack()}
@@ -61,6 +63,20 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
   },
+  purchasesContainer: {
+    flex: 1,
+  },
+  purchaseContainer: {
+    backgroundColor: 'black',
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 5
+  },
+  purchaseText: {
+    color: 'white',
+    textAlign: 'center',
+  }
 });
