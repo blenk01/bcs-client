@@ -21,8 +21,8 @@ export default function ShoppingCartScreen({navigation}: any) {
     <View style={styles.container}>
         {cart.map((item: ItemCart) => {
             return (
-              <View>
-                <Text key={item.id}>
+              <View key={item.id}>
+                <Text>
                   {item.name} - x{item.inCart} : {(item.inCart * item.price)/100}€
                 </Text>
                 
