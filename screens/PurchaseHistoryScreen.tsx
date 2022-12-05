@@ -38,12 +38,12 @@ export default function PurchaseHistory({ navigation }: any) {
     return (
         <View style={styles.container}>
             <View style={styles.purchasesContainer}>
-                {purchaseHistory.map(paymentsItems => {
+                {purchaseHistory.map((paymentsItems, index) => {
                     return  (
-                        <View style={styles.purchaseContainer}>
-                            {paymentsItems.map((item: itemType) => {
+                        <View key={index} style={styles.purchaseContainer}>
+                            {paymentsItems.map((item: itemType, index: number) => {
                                 return (
-                                    <Text style={styles.purchaseText}>{item.name} - {item.price/100}€/p - x{item.count} - {(item.price * item.count)/100}€</Text>  
+                                    <Text key={index} style={styles.purchaseText}>{item.name} - {item.price/100}€/p - x{item.count} - {(item.price * item.count)/100}€</Text>  
                                 );
                             })}
                         </View>
