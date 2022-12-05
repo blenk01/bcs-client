@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { PREFIX_BARCODE, API_URL } from './config';
+import CartService from './services/CartService';
 
 export default function ScannerScreen() {
   const [hasPermission, setHasPermission] = useState(false);
@@ -15,25 +17,60 @@ export default function ScannerScreen() {
     getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({type, data}: { type: string, data: string }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    const supposedId = data.replace(PREFIX_BARCODE, '');
+    await fetchItemAndAddToBasket(supposedId);
   };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  const fetchItemAndAddToBasket = async (itemId: string) => {
+        if ( !(/\d+/.test(itemId)) ) { 
+            alert('Id is not valid !'); 
+            return;
+        }
+
+        let response;
+        try {
+          response = await fetch(`${API_URL}/items/${itemId}`, {
+            method: 'GET',
+          });
+        } catch(e) {
+          alert('A server error has occurred !');
+          return;
+        }
+
+        const data = await response.json();
+
+        if ( !response.ok ) { 
+          alert('Server send not ok !');
+          return;
+        } 
+        if ( !data ) { 
+          alert('Item not found !');
+          return;
+        }
+        
+        const id = data.id;
+        await CartService.addToCart(id);
+        alert('Item added to cart !');
+    };
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+        {
+            hasPermission ? 
+                <BarCodeScanner
+                    onBarCodeScanned={ scanned ? undefined : handleBarCodeScanned}
+                    style={StyleSheet.absoluteFillObject}
+                />
+            : 
+                (
+                    //TODO set text input
+                    <Text>Please accept permission</Text>
+                    
+                )
+        }
+      { scanned && <Button title='Tap to scan again' onPress={() => { setScanned(false) } } /> }
     </View>
   );
 }
