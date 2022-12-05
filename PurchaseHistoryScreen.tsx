@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Button, Text } from 'react-native';
 import ApiService from './services/ApiService';
 
+type itemType = {name: string, price: number, count: number};
+
 export default function PurchaseHistory({ navigation }: any) {
     const customerId = 1;
     const [purchaseHistory, setPurchaseHistory] = useState<any[]>([]);
@@ -10,7 +12,7 @@ export default function PurchaseHistory({ navigation }: any) {
         ApiService.getPurchaseHistory(customerId).then(data => {
             const paymentsItems = [];
             for ( const payment of data ) {
-                const combinedItems: {[id: number] : {name: string, price: number, count: number}} = {};
+                const combinedItems: {[id: number] : itemType} = {};
                 for ( const jsonObject of payment.purchased_items ) {
                     const purchasedItem = jsonObject.item;
                     if ( combinedItems[purchasedItem.id] ) combinedItems[purchasedItem.id]['count']++;
@@ -21,7 +23,7 @@ export default function PurchaseHistory({ navigation }: any) {
                     };
                 }
 
-                const items: {name: string, price: number, count: number}[] = [];
+                const items: itemType[] = [];
                 for(const id in combinedItems) {
                     items.push(combinedItems[id]);
                 }
@@ -37,7 +39,7 @@ export default function PurchaseHistory({ navigation }: any) {
             {purchaseHistory.map(paymentsItems => {
                 return  (
                     <View>
-                    {paymentsItems.map(item => {
+                    {paymentsItems.map((item: itemType) => {
                         return (
                           <Text>{item.name} - {item.price/100}€/p - x{item.count} - {(item.price * item.count)/100}€</Text>  
                         );
