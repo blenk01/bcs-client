@@ -38,7 +38,7 @@ export default function ShoppingCartScreen({navigation}: any) {
             );
         })}
         
-        <Button title='Payer' onPress={async () => navigation.navigate('checkout', { cart: await CartService.getItems() })}  />
+        <Button title='Pay' onPress={async () => navigation.navigate('checkout', { cart: await CartService.getItems() })}  />
     </View>
   );
 }
