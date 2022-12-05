@@ -23,7 +23,7 @@ export default function ShoppingCartScreen({navigation}: any) {
             return (
               <View>
                 <Text key={item.id}>
-                  {item.name} - x{item.inCart} : {item.inCart * item.price}$
+                  {item.name} - x{item.inCart} : {(item.inCart * item.price)/100}€
                 </Text>
                 
                 <Button title="-" onPress={ () => {
