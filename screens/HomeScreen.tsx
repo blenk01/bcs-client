@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
     paddingHorizontal: 10,
   },
 });
