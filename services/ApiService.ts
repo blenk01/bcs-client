@@ -35,6 +35,6 @@ export default {
           throw 'Server send not ok !';
       } 
 
-      return data;
+      return data.filter(purchase => purchase.is_checked);
     }
 };
