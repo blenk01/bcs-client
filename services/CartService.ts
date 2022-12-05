@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import { CART_KEY } from '../config';
-import { ItemCart } from '../types/itemCart';
+import { ItemCart } from '../types/ItemCart';
 import ApiService from './ApiService';
 
 let cart: { [key: string]: number } = {};
