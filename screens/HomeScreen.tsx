@@ -1,4 +1,5 @@
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Button from '../components/Button';
 
 export default function HomeScreen({ navigation }: any) {
   return (
@@ -25,5 +26,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+    paddingHorizontal: 10,
   },
 });
