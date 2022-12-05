@@ -13,6 +13,11 @@ export default function CheckoutScreen({navigation, route}: any) {
 
     const { cart } = route.params;
 
+    if ( cart.length <= 0 ) {
+        alert('Can\'t checkout empty shopping cart');
+        navigation.goBack();
+    }
+
     const userId = 1;
     const amount = cart.reduce((sum: number, item: ItemCart) => {
         return sum + (item.price * item.inCart);
