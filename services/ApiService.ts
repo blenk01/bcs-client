@@ -1,4 +1,5 @@
 import { API_URL } from '../config';
+import { Purchase } from '../types/Purchase';
 
 export default {
     getItem: async (itemId: string) => {
@@ -35,6 +36,6 @@ export default {
           throw 'Server send not ok !';
       } 
 
-      return data.filter(purchase => purchase.is_checked);
+      return data.filter((purchase: Purchase) => purchase.is_checked);
     }
 };
