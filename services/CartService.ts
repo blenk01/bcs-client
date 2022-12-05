@@ -3,7 +3,7 @@ import { CART_KEY } from '../config';
 import { ItemCart } from '../types/ItemCart';
 import ApiService from './ApiService';
 
-let cart: { [key: string]: number } = {};
+let cart: { [key: number]: number } = {};
 
 (async () => {
     const storedCart = await SecureStore.getItemAsync(CART_KEY);
@@ -15,12 +15,12 @@ const saveCart = () => {
 }
 
 export default {
-    addToCart: (itemId: string) => {
+    addToCart: (itemId: number) => {
         if ( cart[itemId] ) cart[itemId]++;
         else { cart[itemId] = 1 }
         return saveCart();
     },
-    decreaseQuantity: (itemId: string) => {
+    decreaseQuantity: (itemId: number) => {
         if ( cart[itemId] ) cart[itemId]--;
         if ( cart[itemId] <= 0 ) delete cart[itemId];
         return saveCart();
@@ -32,7 +32,7 @@ export default {
     getItems: async () => {
         const items: ItemCart[] = [];
         for ( const itemId in cart ) {
-            const item: {id: string, name: string, price: number} = await ApiService.getItem(itemId);
+            const item: {id: number, name: string, price: number} = await ApiService.getItem(itemId);
             if ( item ) {
                 const itemData: ItemCart = {
                     ...item,
