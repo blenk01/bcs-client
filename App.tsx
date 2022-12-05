@@ -12,11 +12,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="home" component={HomeScreen} />
-        <Stack.Screen name="scanner" component={ScannerScreen} />
-        <Stack.Screen name="shoppingCart" component={ShoppingCartScreen} />
-        <Stack.Screen name="checkout" component={CheckoutScreen} />
-        <Stack.Screen name="purchaseHistory" component={PurchaseHistory} />
+        <Stack.Screen name="home" component={HomeScreen} options={{ title: 'Home' }} />
+        <Stack.Screen name="scanner" component={ScannerScreen} options={{ title: 'Scanner' }} />
+        <Stack.Screen name="shoppingCart" component={ShoppingCartScreen} options={{ title: 'Shopping cart' }} />
+        <Stack.Screen name="checkout" component={CheckoutScreen} options={{ title: 'Checkout' }} />
+        <Stack.Screen name="purchaseHistory" component={PurchaseHistory} options={{ title: 'Your purchases' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

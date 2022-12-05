@@ -1,7 +1,8 @@
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { useStripe } from "@stripe/stripe-react-native";
 import React, { useEffect, useState } from "react";
-import { Alert, Text, Button, SafeAreaView } from "react-native";
+import { Alert, Text, SafeAreaView, StyleSheet, View } from "react-native";
+import Button from '../components/Button';
 import { API_URL, STRIPE_PK } from "../config";
 import CartService from '../services/CartService';
 import { ItemCart } from '../types/ItemCart';
@@ -106,17 +107,40 @@ export default function CheckoutScreen({navigation, route}: any) {
     }, []);
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <StripeProvider
                 publishableKey={STRIPE_PK}
                 merchantIdentifier="merchant.com.example">
-            <Text>Payment</Text>
-            <Button
-                disabled={!loading}
-                title="Checkout"
-                onPress={openPaymentSheet}
-            />
+                <View style={styles.fill}>
+                    <Text style={styles.text}>Your order amount is {amount / 100}€</Text>
+                    <Text style={styles.text}>To proceed checkout please click the button below</Text>
+                </View>
+                
+                <Button
+                    disabled={!loading}
+                    title="Checkout"
+                    onPress={openPaymentSheet}
+                />
             </StripeProvider>
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 30,
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 23,
+    textAlign: 'center',
+  },
+  fill: {
+    flex: 1,
+    marginTop: 30
+  }
+});

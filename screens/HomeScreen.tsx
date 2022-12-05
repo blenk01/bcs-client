@@ -1,4 +1,6 @@
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Button from '../components/Button';
+import FabShoppingCart from '../components/FabShoppingCart';
 
 export default function HomeScreen({ navigation }: any) {
   return (
@@ -7,10 +9,7 @@ export default function HomeScreen({ navigation }: any) {
             title="Scan a barcode"
             onPress={() => navigation.navigate('scanner')}
         />
-        <Button
-            title="Go to Shopping Cart"
-            onPress={() => navigation.navigate('shoppingCart')}
-        />
+        <FabShoppingCart navigation={navigation} />
         <Button
             title="View purchase history"
             onPress={() => navigation.navigate('purchaseHistory')}
@@ -24,6 +23,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    paddingHorizontal: 10,
   },
 });

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import Button from '../components/Button';
 import CartService from '../services/CartService';
 import { ItemCart } from '../types/ItemCart';
 
@@ -19,26 +20,29 @@ export default function ShoppingCartScreen({navigation}: any) {
   
   return (
     <View style={styles.container}>
-        {cart.map((item: ItemCart) => {
-            return (
-              <View>
-                <Text key={item.id}>
-                  {item.name} - x{item.inCart} : {item.inCart * item.price}$
-                </Text>
-                
-                <Button title="-" onPress={ () => {
-                  CartService.decreaseQuantity(item.id);
-                  updateCart();
-                } } />
-                <Button title="+" onPress={ () => {
-                  CartService.addToCart(item.id);
-                  updateCart();
-                } } />
-              </View>
-            );
-        })}
-        
-        <Button title='Payer' onPress={async () => navigation.navigate('checkout', { cart: await CartService.getItems() })}  />
+        <View style={styles.itemsContainer}>
+          {cart.map((item: ItemCart) => {
+              return (
+                <View key={item.id} style={styles.itemContainer}>
+                  <Text style={styles.itemText}>
+                    {item.name} - x{item.inCart} : {(item.inCart * item.price)/100}€
+                  </Text>
+                  
+                  <View style={styles.itemButtonsContainer}>
+                    <Button title="-" onPress={ () => {
+                      CartService.decreaseQuantity(item.id);
+                      updateCart();
+                    } } />
+                    <Button title="+" onPress={ () => {
+                      CartService.addToCart(item.id);
+                      updateCart();
+                    } } />
+                  </View>
+                </View>
+              );
+          })}
+        </View>
+        <Button title='Pay' onPress={async () => navigation.navigate('checkout', { cart: await CartService.getItems() })}  />
     </View>
   );
 }
@@ -47,6 +51,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    paddingTop: 10
+  },
+  itemsContainer: {
+    flex: 1,
+  },
+  itemContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: 'black',
+    color: 'white',
+    justifyContent: 'space-around',
+    borderRadius: 10
+  },
+  itemText: {
+    color: 'white',
+    alignSelf: 'center',
+    paddingLeft: 10
+  },
+  itemButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 });

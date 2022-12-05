@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Button, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
+import Button from '../components/Button';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { PREFIX_BARCODE } from '../config';
 import CartService from '../services/CartService';
 import ApiService from '../services/ApiService';
+import FabShoppingCart from '../components/FabShoppingCart';
 
 export default function ScannerScreen({ navigation }: any) {
   const [hasPermission, setHasPermission] = useState(false);
@@ -11,13 +13,25 @@ export default function ScannerScreen({ navigation }: any) {
   const [inputText, setInputText] = useState<undefined|string>(undefined);
 
   useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    };
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      setScanned(false);
+      const getBarCodeScannerPermissions = async () => {
+        const { status } = await BarCodeScanner.requestPermissionsAsync();
+        setHasPermission(status === 'granted');
+      };
 
-    getBarCodeScannerPermissions();
-  }, []);
+      getBarCodeScannerPermissions();
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
+      setScanned(true);
+    });
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    }
+  }, [navigation]);
 
   const handleBarCodeScanned = async ({type, data}: { type: string, data: string }) => {
     setScanned(true);
@@ -52,30 +66,33 @@ export default function ScannerScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
         {
-            hasPermission ? 
-                <BarCodeScanner
-                    onBarCodeScanned={ scanned ? undefined : handleBarCodeScanned}
-                    style={styles.barcode}
-                />
-            : 
-                (
-                    <View>
-                        <TextInput 
-                            style={styles.input}
-                            onChangeText={setInputText}
-                            value={inputText}
-                            placeholder="Item ID"
-                            keyboardType="numeric"
-                        />
-                        <Button title='Add Item to basket' onPress={() => {fetchItemAndAddToBasket(inputText!)}} />
-                    </View>
-                )
+          hasPermission ? 
+          (
+            scanned ? 
+              <View style={styles.paddingContainer}>
+                <Button title='Tap to scan again' onPress={() => { setScanned(false) } } />
+              </View>
+              :
+              <BarCodeScanner
+                onBarCodeScanned={ scanned ? undefined : handleBarCodeScanned}
+                style={styles.barcode}
+            />
+          )
+          : 
+          (
+              <View style={styles.manualContainer}>
+                  <TextInput 
+                      style={styles.input}
+                      onChangeText={setInputText}
+                      value={inputText}
+                      placeholder="Item ID"
+                      keyboardType="numeric"
+                  />
+                  <Button title='Add Item to basket' onPress={() => {fetchItemAndAddToBasket(inputText!)}} />
+              </View>
+          )
         }
-      { scanned && <Button title='Tap to scan again' onPress={() => { setScanned(false) } } /> }
-      <Button
-        title="Go to Shopping Cart"
-        onPress={() => navigation.navigate('shoppingCart')}
-      />
+      <FabShoppingCart navigation={navigation}/>
     </View>
   );
 }
@@ -87,13 +104,20 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  manualContainer: {
+    padding: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  paddingContainer: {
+    padding: 30,
+  },
   barcode: {
     flex: 1,
     backgroundColor: 'transparent',
   },
   input: {
-    height: 40,
-    margin: 12,
     borderWidth: 1,
     padding: 10,
   },
